@@ -22,12 +22,17 @@ namespace esphome
             wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
             ESP_ERROR_CHECK(esp_wifi_init(&cfg));
             ESP_ERROR_CHECK(esp_wifi_set_storage(WIFI_STORAGE_RAM));
-            ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
+            ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_APSTA));
             ESP_ERROR_CHECK(esp_wifi_start());
             ESP_ERROR_CHECK(esp_wifi_set_channel(this->wifi_channel_, WIFI_SECOND_CHAN_NONE));
 
-            ESP_LOGD(TAG, "Setting up ESP-Now MQTT Bridge...");
-            ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_APSTA));
+            WiFi.mode(WIFI_AP_STA);
+            WiFi.begin("BrajOfy_IoT", "9851904515@abc");
+            
+            while (WiFi.status() != WL_CONNECTED) {
+                delay(100);
+            }
+
             
             if (esp_now_init() != ESP_OK)
             {
