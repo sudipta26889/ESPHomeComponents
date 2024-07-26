@@ -26,6 +26,9 @@ namespace esphome
             ESP_ERROR_CHECK(esp_wifi_start());
             ESP_ERROR_CHECK(esp_wifi_set_channel(this->wifi_channel_, WIFI_SECOND_CHAN_NONE));
 
+            ESP_LOGD(TAG, "Setting up ESP-Now MQTT Bridge...");
+            ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_APSTA));
+            
             if (esp_now_init() != ESP_OK)
             {
                 this->mark_failed();
